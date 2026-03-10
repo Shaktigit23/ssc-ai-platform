@@ -58,6 +58,7 @@ civics_db, geography_db, history_db = load_all_dbs()
 #LLM for generating answer
 llm = ChatOpenAI(
     model = "gpt-4o-mini",
+    api_key=os.getenv("OPENAI_API_KEY"),
     temperature = 0,
 )
 
