@@ -22,4 +22,6 @@ D
 Answer
 """
 
-    return llm.predict(prompt)
+    response = llm.invoke(prompt)
+
+    return response.content

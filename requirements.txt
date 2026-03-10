@@ -10,5 +10,7 @@ tiktoken
 python-dotenv
 streamlit
 openai
+speechrecognition
+streamlit-webrtc
 
 
