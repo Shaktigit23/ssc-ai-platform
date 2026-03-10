@@ -1,0 +1,16 @@
+<input id="question">
+<button onclick="askAI()">Ask AI</button>
+
+<script>
+function askAI(){
+
+let q=document.getElementById("question").value
+
+fetch(`/ask?query=${q}`)
+.then(res=>res.json())
+.then(data=>{
+alert(data.answer)
+})
+
+}
+</script>
