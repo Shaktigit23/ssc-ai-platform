@@ -1,37 +1,30 @@
+from streamlit_mic_recorder import mic_recorder
 import speech_recognition as sr
 import streamlit as st
-
-def get_voice_input():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("Speak now...")
-        audio = r.listen(source)
-
-    try:
-        text = r.recognize_google(audio)
-        print(f"You said: {text}")
-        return text
-    except sr.UnknownValueError:
-        print("Sorry, I could not understand the audio.")
-        return None
-    except sr.RequestError as e:
-        print(f"Could not request results; {e}")
-        return None
-    # query = r.recognize_google(audio)
-    # return query
+import tempfile
 
 def voice_to_text():
 
-    r = sr.Recognizer()
+    audio = mic_recorder(
+        start_prompt="🎤 Start recording",
+        stop_prompt="⏹ Stop recording",
+        key="recorder"
+    )
 
-    with sr.Microphone() as source:
-        st.info("🎤 Listening...")
-        audio = r.listen(source)
+    if audio:
 
-    try:
-        text = r.recognize_google(audio)
-        return text
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as f:
+            f.write(audio["bytes"])
+            audio_path = f.name
 
-    except:
-        st.warning("Could not understand audio")
-        return None
+        r = sr.Recognizer()
+
+        with sr.AudioFile(audio_path) as source:
+            audio_data = r.record(source)
+
+        try:
+            text = r.recognize_google(audio_data)
+            return text
+        except:
+            st.warning("Could not understand audio")
+            return None

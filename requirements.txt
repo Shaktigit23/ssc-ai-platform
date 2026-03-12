@@ -12,5 +12,6 @@ streamlit
 openai
 speechrecognition
 streamlit-webrtc
+streamlit-mic-recorder
 
 
