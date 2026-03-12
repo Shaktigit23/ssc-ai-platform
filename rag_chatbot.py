@@ -6,6 +6,7 @@ from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from mcq_generator import generate_mcq
+from voice_tutor import get_voice_input
 
 
 load_dotenv()
@@ -58,8 +59,7 @@ civics_db, geography_db, history_db = load_all_dbs()
 #LLM for generating answer
 llm = ChatOpenAI(
     model = "gpt-4o-mini",
-    api_key=os.getenv("OPENAI_API_KEY"),
-    temperature = 0,
+    temperature = 0
 )
 
 
@@ -114,6 +114,14 @@ Question:
 
         st.subheader("Practice MCQ")
         st.write(mcq)
+        
+        st.subheader("🎤 Voice Tutor")
+
+        if st.button("Ask by Voice"):
+
+            query = get_voice_input()
+
+            st.write("You asked:", query)
 
     # Save response
     st.session_state.messages.append(
