@@ -1,4 +1,5 @@
 import speech_recognition as sr
+import streamlit as st
 
 def get_voice_input():
     r = sr.Recognizer()
@@ -19,3 +20,18 @@ def get_voice_input():
     # query = r.recognize_google(audio)
     # return query
 
+def voice_to_text():
+
+    r = sr.Recognizer()
+
+    with sr.Microphone() as source:
+        st.info("🎤 Listening...")
+        audio = r.listen(source)
+
+    try:
+        text = r.recognize_google(audio)
+        return text
+
+    except:
+        st.warning("Could not understand audio")
+        return None
